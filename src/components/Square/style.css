@@ -1,0 +1,8 @@
+.square {
+    width: 33.333%;
+    height: 33.333%;
+    border: 2px solid black;
+    color: black;
+    font-size: 32px;
+    background-color: transparent;
+}

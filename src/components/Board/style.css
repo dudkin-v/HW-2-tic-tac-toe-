@@ -1,0 +1,9 @@
+.board {
+    width: 210px;
+    height: 210px;
+    background-color: burlywood;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    border: 1px solid black;
+}
