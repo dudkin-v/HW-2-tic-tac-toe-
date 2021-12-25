@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import './App.css';
-import Game from "./components/Game/Game";
+import { Game } from "./components/Game";
+
+import './App.style.css';
 
 function App() {
     return (
-        <div className="App">
+        <div className="app">
             <Game/>
         </div>
     );

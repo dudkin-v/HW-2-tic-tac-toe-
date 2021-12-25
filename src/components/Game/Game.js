@@ -1,49 +1,59 @@
-import React, {useState, useEffect} from "react";
-import Board from "../Board/Board";
-import './style.css'
-import GameInfo from "../Game Info/Game-Info";
+import { useState } from "react";
 
-const initialState = Array(9).fill(null);
-const historyInitialState = [{step: 0, squares: initialState}];
+import { calculateWinner } from "../../helper";
+
+import Board from "../Board/Board";
+import GameInfo from "../GameInfo/GameInfo";
+
+import './Game.styles.css'
+
+const initialSquares = Array(9).fill(null);
+const historyInitialState = [{ step: 0, squares: initialSquares }];
 
 const Game = () => {
-    const [squares, setSquares] = useState(initialState);
-    const [xIsNext, setXisNext] = useState(true);
     const [history, setHistory] = useState(historyInitialState);
+    const [stepNumber, setStepNumber] = useState(0);
+    const [xIsNext, setXisNext] = useState(true);
+    const xO = xIsNext ? 'X' : 'O';
+    const {squares} = history[stepNumber];
+    const winner = calculateWinner(squares);
 
-    const handleClick = (index) => {
-        const newSquares = squares.map((el, i) => {
-            if (i === index) {
-                return xIsNext ? 'X' : 'O';
-            }
-            return el;
-        })
+    const handleClick = (i) => {
+        return function () {
+            const newHistory = history.slice(0, stepNumber + 1);
+            const {length} = newHistory;
+            const current = newHistory[stepNumber];
+            const squares = [...current.squares];
 
+            if (winner || squares[i]) return;
 
-        setHistory([...history, {step: history.length, squares: newSquares}]);
-        setSquares(newSquares);
-        setXisNext(!xIsNext);
+            squares[i] = xO;
+
+            setHistory(prevState => [...prevState, {step: length, squares}]);
+            setStepNumber(length);
+            setXisNext(!xIsNext);
+        }
     }
 
     const onRestart = () => {
-        setSquares(initialState);
         setXisNext(true);
         setHistory(historyInitialState);
+        setStepNumber(0);
     }
 
-    const goToStepHistory = (squares) => {
-        setSquares(squares)
+    const jumpTo = (step) => {
+        return function () {
+            setStepNumber(step);
+            setXisNext((step % 2) === 0);
+        }
     }
-
 
     return (
         <div className='game'>
             <h1 className='game-heading'>Tic Tac Toe - with React</h1>
-            <Board squares={squares} onClick={handleClick}/>
-            <GameInfo history={history} onRestart={onRestart} goToStepHistory={goToStepHistory}/>
-
+            <Board squares={squares} onClick={handleClick} />
+            <GameInfo history={history} onRestart={onRestart} goToStepHistory={jumpTo} status={xO} winner={winner} />
         </div>
-
     )
 }
 

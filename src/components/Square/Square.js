@@ -1,12 +1,18 @@
-import React from "react";
-import './style.css';
+import PropTypes from 'prop-types';
 
-const Square = ({value, onClick}) => {
+import './Square.style.css';
+
+const Square = ({ value, onClick }) => {
     return (
-        <button className="square" onClick={onClick} disabled={value}>
+        <button className="square" onClick={onClick}>
             {value}
         </button>
     )
+}
+
+Square.propTypes = {
+    value: PropTypes.string,
+    onClick: PropTypes.func,
 }
 
 export default Square;
