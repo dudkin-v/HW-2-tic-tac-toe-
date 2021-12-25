@@ -13,8 +13,8 @@ const Board = ({ squares, onClick }) => (
 )
 
 Board.propTypes = {
-    squares: PropTypes.array,
-    onClick: PropTypes.func,
+    squares: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onClick: PropTypes.func.isRequired,
 }
 
 export default Board;

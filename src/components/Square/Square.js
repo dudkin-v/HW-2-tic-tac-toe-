@@ -10,6 +10,7 @@ const Square = ({ value, onClick }) => {
     )
 }
 
+// TODO: Need to add isRequired for propTypes
 Square.propTypes = {
     value: PropTypes.string,
     onClick: PropTypes.func,

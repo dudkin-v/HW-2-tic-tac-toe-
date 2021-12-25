@@ -14,25 +14,25 @@ const Game = () => {
     const [history, setHistory] = useState(historyInitialState);
     const [stepNumber, setStepNumber] = useState(0);
     const [xIsNext, setXisNext] = useState(true);
+
+    // TODO: need to rename variable
     const xO = xIsNext ? 'X' : 'O';
-    const {squares} = history[stepNumber];
+    const { squares } = history[stepNumber];
     const winner = calculateWinner(squares);
 
-    const handleClick = (i) => {
-        return function () {
-            const newHistory = history.slice(0, stepNumber + 1);
-            const {length} = newHistory;
-            const current = newHistory[stepNumber];
-            const squares = [...current.squares];
+    const handleClick = (i) => () => {
+        const newHistory = history.slice(0, stepNumber + 1);
+        const { length } = newHistory;
+        const current = newHistory[stepNumber];
+        const squares = [...current.squares];
 
-            if (winner || squares[i]) return;
+        if (winner || squares[i]) return;
 
-            squares[i] = xO;
+        squares[i] = xO;
 
-            setHistory(prevState => [...prevState, {step: length, squares}]);
-            setStepNumber(length);
-            setXisNext(!xIsNext);
-        }
+        setHistory(() => [...newHistory, { step: length, squares }]);
+        setStepNumber(length);
+        setXisNext(!xIsNext);
     }
 
     const onRestart = () => {
@@ -41,6 +41,7 @@ const Game = () => {
         setStepNumber(0);
     }
 
+    // TODO: Need to remove "function declaration", use arrow function
     const jumpTo = (step) => {
         return function () {
             setStepNumber(step);
@@ -51,8 +52,16 @@ const Game = () => {
     return (
         <div className='game'>
             <h1 className='game-heading'>Tic Tac Toe - with React</h1>
+
             <Board squares={squares} onClick={handleClick} />
-            <GameInfo history={history} onRestart={onRestart} goToStepHistory={jumpTo} status={xO} winner={winner} />
+
+            <GameInfo 
+              history={history} 
+              onRestart={onRestart} 
+              goToStepHistory={jumpTo} 
+              status={xO} 
+              winner={winner}
+            />
         </div>
     )
 }
