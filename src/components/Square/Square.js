@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 
 import './Square.style.css';
 
-const Square = ({ value, onClick }) => {
+const Square = ({ value, onClick, isWinner }) => {
     return (
-        <button className="square" onClick={onClick}>
+        <button className={`square ${isWinner ? 'winner-square' : ''}`} onClick={onClick}>
             {value}
         </button>
     )
@@ -14,6 +14,7 @@ const Square = ({ value, onClick }) => {
 Square.propTypes = {
     value: PropTypes.string,
     onClick: PropTypes.func,
+    isWinner: PropTypes.bool.isRequired,
 }
 
 export default Square;

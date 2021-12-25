@@ -18,7 +18,9 @@ const Game = () => {
     // TODO: need to rename variable
     const xO = xIsNext ? 'X' : 'O';
     const { squares } = history[stepNumber];
-    const winner = calculateWinner(squares);
+    const winnerResult = calculateWinner(squares);
+    const winner = winnerResult?.winner || null;
+    const winnerLine = winnerResult?.winnerLine || [];
 
     const handleClick = (i) => () => {
         const newHistory = history.slice(0, stepNumber + 1);
@@ -53,7 +55,7 @@ const Game = () => {
         <div className='game'>
             <h1 className='game-heading'>Tic Tac Toe - with React</h1>
 
-            <Board squares={squares} onClick={handleClick} />
+            <Board squares={squares} onClick={handleClick} winnerLine={winnerLine} />
 
             <GameInfo 
               history={history} 
