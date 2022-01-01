@@ -11,7 +11,7 @@ const Square = ({ value, onClick, isWinner }) => {
 }
 
 Square.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     isWinner: PropTypes.bool.isRequired,
 }

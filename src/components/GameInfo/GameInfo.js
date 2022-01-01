@@ -45,14 +45,11 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
 }
 
 GameInfo.propTypes = {
-    history: PropTypes.shape({
-        step: PropTypes.number,
-        squares: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    history: PropTypes.arrayOf(PropTypes.object).isRequired,
     onRestart: PropTypes.func.isRequired,
     goToStepHistory: PropTypes.func.isRequired,
     status: PropTypes.string.isRequired,
-    winner: PropTypes.string.isRequired,
+    winner: PropTypes.string,
 }
 
 export default GameInfo;
