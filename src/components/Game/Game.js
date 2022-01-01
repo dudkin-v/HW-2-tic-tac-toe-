@@ -15,8 +15,7 @@ const Game = () => {
     const [stepNumber, setStepNumber] = useState(0);
     const [xIsNext, setXisNext] = useState(true);
 
-    // TODO: need to rename variable
-    const xO = xIsNext ? 'X' : 'O';
+    const currentPlayer = xIsNext ? 'X' : 'O';
     const { squares } = history[stepNumber];
     const winnerResult = calculateWinner(squares);
     const winner = winnerResult?.winner || null;
@@ -30,7 +29,7 @@ const Game = () => {
 
         if (winner || squares[i]) return;
 
-        squares[i] = xO;
+        squares[i] = currentPlayer;
 
         setHistory(() => [...newHistory, { step: length, squares }]);
         setStepNumber(length);
@@ -43,12 +42,10 @@ const Game = () => {
         setStepNumber(0);
     }
 
-    // TODO: Need to remove "function declaration", use arrow function
-    const jumpTo = (step) => {
-        return function () {
+
+    const jumpTo = (step) => () => {
             setStepNumber(step);
             setXisNext((step % 2) === 0);
-        }
     }
 
     return (
@@ -61,7 +58,7 @@ const Game = () => {
               history={history} 
               onRestart={onRestart} 
               goToStepHistory={jumpTo} 
-              status={xO} 
+              status={currentPlayer}
               winner={winner}
             />
         </div>
