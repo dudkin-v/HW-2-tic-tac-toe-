@@ -10,10 +10,9 @@ const Square = ({ value, onClick, isWinner }) => {
     )
 }
 
-// TODO: Need to add isRequired for propTypes
 Square.propTypes = {
-    value: PropTypes.string,
-    onClick: PropTypes.func,
+    value: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
     isWinner: PropTypes.bool.isRequired,
 }
 
