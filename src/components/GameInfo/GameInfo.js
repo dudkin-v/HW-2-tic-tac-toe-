@@ -20,8 +20,6 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
             <div className='game-history'>
                 <ul>
                     {history.map((step, move) => {
-                        // let desc;
-                        // move !== 0 ? desc = 'Go to move #' + move : desc = 'Restart game';
 
                         const description = move ? `Go to move #${move}` : 'Restart game';
 
@@ -46,14 +44,15 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
     )
 }
 
-// TODO: Need to add isRequired for propTypes
-// TODO: Need to add specific type for "history" -> arrayOf(PropTypes.shape({ ... }))
 GameInfo.propTypes = {
-    history: PropTypes.array,
-    onRestart: PropTypes.func,
-    goToStepHistory: PropTypes.func,
-    status: PropTypes.string,
-    winner: PropTypes.string,
+    history: PropTypes.shape({
+        step: PropTypes.number,
+        squares: PropTypes.arrayOf(PropTypes.string)
+    }).isRequired,
+    onRestart: PropTypes.func.isRequired,
+    goToStepHistory: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
+    winner: PropTypes.string.isRequired,
 }
 
 export default GameInfo;
