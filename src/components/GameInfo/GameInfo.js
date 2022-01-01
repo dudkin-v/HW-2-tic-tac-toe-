@@ -1,19 +1,32 @@
 import PropTypes from 'prop-types';
 
+import { getWinnerResult } from '../../helper';
+
 import './GameInfo.styles.css'
 
 const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
+    const winnerResult = getWinnerResult(winner, history, status);
+
+    const handleClick = (move) => () => {
+        if (move) {
+            goToStepHistory(move)();   
+        } else {
+            onRestart();
+        }
+    }
+
     return (
         <div className='game-info'>
             <div className='game-history'>
                 <ul>
                     {history.map((step, move) => {
-                        let desc;
-                        move !== 0 ? desc = 'Go to move #' + move : desc = 'Restart game';
+
+                        const description = move ? `Go to move #${move}` : 'Restart game';
+
                         return (
                             <li key={move}>
-                                <button onClick={move !== 0 ? goToStepHistory(move) : onRestart}>
-                                    {desc}
+                                <button onClick={handleClick(move)}>
+                                    {description}
                                 </button>
                             </li>
                         )
@@ -21,9 +34,10 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
                     }
                 </ul>
             </div>
+
             <div className='game-data'>
                 <h2 className='status'>
-                    {history.length === 10 && !winner ? 'The game is a draw' : winner ? "Winner is: " + winner : 'Next player: ' + status}
+                    {winnerResult}
                 </h2>
             </div>
         </div>
@@ -31,11 +45,14 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
 }
 
 GameInfo.propTypes = {
-    history: PropTypes.array,
-    onRestart: PropTypes.func,
-    goToStepHistory: PropTypes.func,
-    status: PropTypes.string,
-    winner: PropTypes.string,
+    history: PropTypes.shape({
+        step: PropTypes.number,
+        squares: PropTypes.arrayOf(PropTypes.string)
+    }).isRequired,
+    onRestart: PropTypes.func.isRequired,
+    goToStepHistory: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
+    winner: PropTypes.string.isRequired,
 }
 
 export default GameInfo;

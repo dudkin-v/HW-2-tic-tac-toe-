@@ -4,17 +4,22 @@ import Square from '../Square/Square';
 
 import './Board.styles.css';
 
-const Board = ({ squares, onClick }) => (
+const Board = ({ squares, onClick, winnerLine }) => (
     <div className='board'>
-        {squares.map((square, index) => (
-            <Square key={index} value={square} onClick={onClick(index)}/>
-        ))}
+        {squares.map((square, index) => {
+            const isWinnerSquare = winnerLine.includes(index);
+
+            return (
+                <Square key={index} value={square} onClick={onClick(index)} isWinner={isWinnerSquare} />
+            )})
+        }
     </div>
 )
 
 Board.propTypes = {
-    squares: PropTypes.array,
-    onClick: PropTypes.func,
+    squares: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onClick: PropTypes.func.isRequired,
+    winnerLine: PropTypes.arrayOf(PropTypes.number).isRequired,
 }
 
 export default Board;

@@ -14,25 +14,26 @@ const Game = () => {
     const [history, setHistory] = useState(historyInitialState);
     const [stepNumber, setStepNumber] = useState(0);
     const [xIsNext, setXisNext] = useState(true);
-    const xO = xIsNext ? 'X' : 'O';
-    const {squares} = history[stepNumber];
-    const winner = calculateWinner(squares);
 
-    const handleClick = (i) => {
-        return function () {
-            const newHistory = history.slice(0, stepNumber + 1);
-            const {length} = newHistory;
-            const current = newHistory[stepNumber];
-            const squares = [...current.squares];
+    const currentPlayer = xIsNext ? 'X' : 'O';
+    const { squares } = history[stepNumber];
+    const winnerResult = calculateWinner(squares);
+    const winner = winnerResult?.winner || null;
+    const winnerLine = winnerResult?.winnerLine || [];
 
-            if (winner || squares[i]) return;
+    const handleClick = (i) => () => {
+        const newHistory = history.slice(0, stepNumber + 1);
+        const { length } = newHistory;
+        const current = newHistory[stepNumber];
+        const squares = [...current.squares];
 
-            squares[i] = xO;
+        if (winner || squares[i]) return;
 
-            setHistory(prevState => [...prevState, {step: length, squares}]);
-            setStepNumber(length);
-            setXisNext(!xIsNext);
-        }
+        squares[i] = currentPlayer;
+
+        setHistory(() => [...newHistory, { step: length, squares }]);
+        setStepNumber(length);
+        setXisNext(!xIsNext);
     }
 
     const onRestart = () => {
@@ -41,18 +42,25 @@ const Game = () => {
         setStepNumber(0);
     }
 
-    const jumpTo = (step) => {
-        return function () {
+
+    const jumpTo = (step) => () => {
             setStepNumber(step);
             setXisNext((step % 2) === 0);
-        }
     }
 
     return (
         <div className='game'>
             <h1 className='game-heading'>Tic Tac Toe - with React</h1>
-            <Board squares={squares} onClick={handleClick} />
-            <GameInfo history={history} onRestart={onRestart} goToStepHistory={jumpTo} status={xO} winner={winner} />
+
+            <Board squares={squares} onClick={handleClick} winnerLine={winnerLine} />
+
+            <GameInfo 
+              history={history} 
+              onRestart={onRestart} 
+              goToStepHistory={jumpTo} 
+              status={currentPlayer}
+              winner={winner}
+            />
         </div>
     )
 }
