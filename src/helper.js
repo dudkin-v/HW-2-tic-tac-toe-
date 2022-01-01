@@ -28,9 +28,8 @@ export const getWinnerResult = (winner, history, status) => {
     if (history.length === 10 && !winner) {
         return 'The game is a draw';
     } else if (winner) {
-        // TODO: Template string
-        return "Winner is: " + winner;
+        return `Winner is: ${winner}`;
     } else {
-        return 'Next player: ' + status;
+        return `Next player: ${status}`;
     }
 }
