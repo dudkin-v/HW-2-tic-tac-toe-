@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { calculateWinner } from "../../helper";
 
-import Board from "../Board/Board";
-import GameInfo from "../GameInfo/GameInfo";
+import { Board } from "../Board";
+import { GameInfo } from "../GameInfo";
 
 import './Game.styles.css'
 

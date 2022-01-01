@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import Square from '../Square/Square';
+import { Square } from '../Square';
 
 import './Board.styles.css';
 
