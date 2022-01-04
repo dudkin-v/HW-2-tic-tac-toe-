@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { calculateWinner } from "../../helper";
 
@@ -21,6 +21,15 @@ const Game = () => {
     const winner = winnerResult?.winner || null;
     const winnerLine = winnerResult?.winnerLine || [];
 
+    useEffect(() => {
+        const storageHistory = localStorage.getItem('history') || [];
+        setHistory(JSON.parse(storageHistory));
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('history', JSON.stringify(history))
+    }, [history]);
+
     const handleClick = (i) => () => {
         const newHistory = history.slice(0, stepNumber + 1);
         const { length } = newHistory;
@@ -41,7 +50,6 @@ const Game = () => {
         setHistory(historyInitialState);
         setStepNumber(0);
     }
-
 
     const jumpTo = (step) => () => {
             setStepNumber(step);
