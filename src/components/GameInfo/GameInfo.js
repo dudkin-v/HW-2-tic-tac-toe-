@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { HistoryButton } from '../HistoryButton';
+
 import { getWinnerResult } from '../../helper';
 
 import './GameInfo.styles.css'
@@ -25,9 +27,7 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
 
                         return (
                             <li key={move}>
-                                <button onClick={handleClick(move)}>
-                                    {description}
-                                </button>
+                                <HistoryButton onClick={handleClick(move)} description={description} />
                             </li>
                         )
                     })

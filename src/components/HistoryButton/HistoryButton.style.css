@@ -1,0 +1,15 @@
+.historyBtn {
+    font-size: 12px;
+    padding: 4px;
+    background-color: #170606;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: 2px 0;
+}
+
+.currentBtn {
+    background-color: #170606;
+    color: #55f355;
+    border: 1px solid #55f355;
+}

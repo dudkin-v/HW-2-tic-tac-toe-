@@ -5,7 +5,7 @@ import { calculateWinner } from "../../helper";
 import { Board } from "../Board";
 import { GameInfo } from "../GameInfo";
 
-import './Game.styles.css'
+import './Game.styles.css';
 
 const initialSquares = Array(9).fill(null);
 const historyInitialState = [{ step: 0, squares: initialSquares }];
