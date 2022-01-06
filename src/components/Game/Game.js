@@ -25,7 +25,9 @@ const Game = () => {
 
     useEffect(() => {
         const storageHistory = localStorage.getItem('history') || [];
-        setHistory(JSON.parse(storageHistory));
+        const parseAtStorageHistory = JSON.parse(storageHistory);
+        setHistory(parseAtStorageHistory);
+        setStepNumber(parseAtStorageHistory[parseAtStorageHistory.length - 1].step);
     }, []);
 
     useEffect(() => {
@@ -81,6 +83,7 @@ const Game = () => {
               winner={winner}
               sorter={sorter}
               sort={sort}
+              stepNumber={stepNumber}
             />
         </div>
     )
