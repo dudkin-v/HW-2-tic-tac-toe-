@@ -6,32 +6,20 @@ import { getWinnerResult } from '../../helper';
 
 import './GameInfo.styles.css'
 
-const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
+const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorter }) => {
     const winnerResult = getWinnerResult(winner, history, status);
-
-    const handleClick = (move) => () => {
-        if (move) {
-            goToStepHistory(move)();   
-        } else {
-            onRestart();
-        }
-    }
 
     return (
         <div className='game-info'>
+            <button onClick={sorter}>reverse</button>
             <div className='game-history'>
                 <ul>
-                    {history.map((step, move) => {
-
-                        const description = move ? `Go to move #${move}` : 'Restart game';
-
-                        return (
-                            <li key={move}>
-                                <HistoryButton onClick={handleClick(move)} description={description} />
-                            </li>
-                        )
-                    })
-                    }
+                    <li> <HistoryButton onClick={onRestart} description={'Restart game'}/></li>
+                    {history.map((step) => step.step ? (
+                        <li key={step.step}>
+                            <HistoryButton onClick={goToStepHistory(step.step)} description={`Go to move #${step.step}`}/>
+                        </li>
+                    ) : null)}
                 </ul>
             </div>
 

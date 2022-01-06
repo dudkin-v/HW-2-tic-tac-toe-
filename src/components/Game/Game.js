@@ -20,6 +20,8 @@ const Game = () => {
     const winnerResult = calculateWinner(squares);
     const winner = winnerResult?.winner || null;
     const winnerLine = winnerResult?.winnerLine || [];
+    const [sort, setSort] = useState(false);
+    const [gameInfoHistory, setGameInfoHistory] = useState(historyInitialState);
 
     useEffect(() => {
         const storageHistory = localStorage.getItem('history') || [];
@@ -27,8 +29,13 @@ const Game = () => {
     }, []);
 
     useEffect(() => {
-        localStorage.setItem('history', JSON.stringify(history))
+        localStorage.setItem('history', JSON.stringify(history));
+        setGameInfoHistory(history);
     }, [history]);
+
+    useEffect(() => {
+        setGameInfoHistory(sort ? [...history].reverse() : history);
+    }, [sort, history]);
 
     const handleClick = (i) => () => {
         const newHistory = history.slice(0, stepNumber + 1);
@@ -42,7 +49,7 @@ const Game = () => {
 
         setHistory(() => [...newHistory, { step: length, squares }]);
         setStepNumber(length);
-        setXisNext(!xIsNext);
+        setXisNext((xIsNext) => !xIsNext);
     }
 
     const onRestart = () => {
@@ -56,6 +63,10 @@ const Game = () => {
             setXisNext((step % 2) === 0);
     }
 
+    const sorter = () => {
+        setSort((sort) => !sort);
+    }
+
     return (
         <div className='game'>
             <h1 className='game-heading'>Tic Tac Toe - with React</h1>
@@ -63,11 +74,13 @@ const Game = () => {
             <Board squares={squares} onClick={handleClick} winnerLine={winnerLine} />
 
             <GameInfo 
-              history={history} 
+              history={gameInfoHistory}
               onRestart={onRestart} 
               goToStepHistory={jumpTo} 
               status={currentPlayer}
               winner={winner}
+              sorter={sorter}
+              sort={sort}
             />
         </div>
     )

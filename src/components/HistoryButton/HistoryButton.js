@@ -1,13 +1,10 @@
-import {useEffect, useState} from "react";
-
 import PropTypes from 'prop-types';
 
 import './HistoryButton.style.css';
 
-const HistoryButton = ({ onClick, description }) => {
-    const [style,  setStyle] = useState('historyBtn');
+const HistoryButton = ({ onClick, description, style }) => {
     return (
-        <button className={style} onClick={onClick}>
+        <button className={style ? 'currentBtn' : 'historyBtn'} onClick={onClick}>
             {description}
         </button>
     )
