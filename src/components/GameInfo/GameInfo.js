@@ -1,31 +1,41 @@
 import PropTypes from 'prop-types';
 
-import { HistoryButton } from '../HistoryButton';
-
 import { getWinnerResult } from '../../helper';
 
 import './GameInfo.styles.css';
 
-const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorter, stepNumber }) => {
+const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorting, isAscending, stepNumber }) => {
     const winnerResult = getWinnerResult(winner, history, status);
 
     return (
         <div className='game-info'>
-            <button onClick={sorter}>reverse</button>
+            <button className={'sortingBtn'} onClick={sorting}>
+                {isAscending ? '▼' : '▲'}
+            </button>
             <div className='game-history'>
                 <ul>
                     <li>
-                        <HistoryButton onClick={onRestart} description={'Restart game'}/>
+                        <button className={'restartBtn'} onClick={onRestart}>Restart game</button>
                     </li>
-                    {history.map((step) => step.step ? (
+                    {isAscending ?
+                        history.map((step) => step.step ? (
                         <li key={step.step}>
-                            <HistoryButton
-                                onClick={goToStepHistory(step.step)}
-                                description={`Go to move #${step.step}`}
-                                isCurrent={step.step === stepNumber}
-                            />
+                            <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
+                            onClick={goToStepHistory(step.step)}>
+                                Go to move #{step.step}
+                            </button>
                         </li>
-                    ) : null)}
+                    ) : null
+                    ) :
+                        [...history].reverse().map((step) => step.step ? (
+                        <li key={step.step}>
+                            <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
+                                    onClick={goToStepHistory(step.step)}>
+                                Go to move #{step.step}
+                            </button>
+                        </li>
+                    ) : null
+                    )}
                 </ul>
             </div>
 

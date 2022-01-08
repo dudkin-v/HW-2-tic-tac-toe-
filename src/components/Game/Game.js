@@ -11,33 +11,20 @@ const initialSquares = Array(9).fill(null);
 const historyInitialState = [{ step: 0, squares: initialSquares }];
 
 const Game = () => {
-    const [history, setHistory] = useState(historyInitialState);
-    const [stepNumber, setStepNumber] = useState(0);
+    const [history, setHistory] = useState(JSON.parse(localStorage.getItem('history')));
+    const [stepNumber, setStepNumber] = useState(history[history.length - 1].step);
     const [xIsNext, setXisNext] = useState(true);
+    const [isAscending, setIsAscending] = useState(true);
 
     const currentPlayer = xIsNext ? 'X' : 'O';
     const { squares } = history[stepNumber];
     const winnerResult = calculateWinner(squares);
     const winner = winnerResult?.winner || null;
     const winnerLine = winnerResult?.winnerLine || [];
-    const [sort, setSort] = useState(false);
-    const [gameInfoHistory, setGameInfoHistory] = useState(historyInitialState);
-
-    useEffect(() => {
-        const storageHistory = localStorage.getItem('history') || [];
-        const parseAtStorageHistory = JSON.parse(storageHistory);
-        setHistory(parseAtStorageHistory);
-        setStepNumber(parseAtStorageHistory[parseAtStorageHistory.length - 1].step);
-    }, []);
 
     useEffect(() => {
         localStorage.setItem('history', JSON.stringify(history));
-        setGameInfoHistory(history);
     }, [history]);
-
-    useEffect(() => {
-        setGameInfoHistory(sort ? [...history].reverse() : history);
-    }, [sort, history]);
 
     const handleClick = (i) => () => {
         const newHistory = history.slice(0, stepNumber + 1);
@@ -58,6 +45,7 @@ const Game = () => {
         setXisNext(true);
         setHistory(historyInitialState);
         setStepNumber(0);
+        setIsAscending(true);
     }
 
     const jumpTo = (step) => () => {
@@ -65,8 +53,8 @@ const Game = () => {
             setXisNext((step % 2) === 0);
     }
 
-    const sorter = () => {
-        setSort((sort) => !sort);
+    const sorting = () => {
+        setIsAscending((isAscending) => !isAscending);
     }
 
     return (
@@ -76,13 +64,13 @@ const Game = () => {
             <Board squares={squares} onClick={handleClick} winnerLine={winnerLine} />
 
             <GameInfo 
-              history={gameInfoHistory}
+              history={history}
               onRestart={onRestart} 
               goToStepHistory={jumpTo} 
               status={currentPlayer}
               winner={winner}
-              sorter={sorter}
-              sort={sort}
+              sorting={sorting}
+              isAscending={isAscending}
               stepNumber={stepNumber}
             />
         </div>
