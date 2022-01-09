@@ -53,7 +53,7 @@ const Game = () => {
             setXisNext((step % 2) === 0);
     }
 
-    const sorting = () => {
+    const onSorting = () => {
         setIsAscending((isAscending) => !isAscending);
     }
 
@@ -65,11 +65,11 @@ const Game = () => {
 
             <GameInfo 
               history={history}
-              onRestart={onRestart} 
-              goToStepHistory={jumpTo} 
+              onRestart={onRestart}
+              goToStepHistory={jumpTo}
               status={currentPlayer}
               winner={winner}
-              sorting={sorting}
+              onSorting={onSorting}
               isAscending={isAscending}
               stepNumber={stepNumber}
             />

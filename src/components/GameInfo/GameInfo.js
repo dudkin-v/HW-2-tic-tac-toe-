@@ -4,7 +4,7 @@ import { getWinnerResult } from '../../helper';
 
 import './GameInfo.styles.css';
 
-const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorting, isAscending, stepNumber }) => {
+const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, onSorting, isAscending, stepNumber }) => {
     const winnerResult = getWinnerResult(winner, history, status);
 
     const renderButtons = () => {
@@ -26,7 +26,7 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorting
 
     return (
         <div className='game-info'>
-            <button className={'sortingBtn'} onClick={sorting}>
+            <button className={'sortingBtn'} onClick={onSorting}>
                 {isAscending ? '▼' : '▲'}
             </button>
             <div className='game-history'>
