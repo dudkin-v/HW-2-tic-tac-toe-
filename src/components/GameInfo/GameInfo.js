@@ -7,6 +7,23 @@ import './GameInfo.styles.css';
 const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorting, isAscending, stepNumber }) => {
     const winnerResult = getWinnerResult(winner, history, status);
 
+    const renderButtons = () => {
+        let historyArray = [...history];
+
+        if(!isAscending) {
+            historyArray = historyArray.reverse();
+        }
+
+        return historyArray.map((step) => step.step ? (
+            <li key={step.step}>
+                <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
+                        onClick={goToStepHistory(step.step)}>
+                    Go to move #{step.step}
+                </button>
+            </li>
+        ) : null )
+    }
+
     return (
         <div className='game-info'>
             <button className={'sortingBtn'} onClick={sorting}>
@@ -17,25 +34,7 @@ const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, sorting
                     <li>
                         <button className={'restartBtn'} onClick={onRestart}>Restart game</button>
                     </li>
-                    {isAscending ?
-                        history.map((step) => step.step ? (
-                        <li key={step.step}>
-                            <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
-                            onClick={goToStepHistory(step.step)}>
-                                Go to move #{step.step}
-                            </button>
-                        </li>
-                    ) : null
-                    ) :
-                        [...history].reverse().map((step) => step.step ? (
-                        <li key={step.step}>
-                            <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
-                                    onClick={goToStepHistory(step.step)}>
-                                Go to move #{step.step}
-                            </button>
-                        </li>
-                    ) : null
-                    )}
+                    {renderButtons()}
                 </ul>
             </div>
 
