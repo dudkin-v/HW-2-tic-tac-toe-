@@ -2,36 +2,39 @@ import PropTypes from 'prop-types';
 
 import { getWinnerResult } from '../../helper';
 
-import './GameInfo.styles.css'
+import './GameInfo.styles.css';
 
-const GameInfo = ({ history, onRestart, goToStepHistory, status, winner }) => {
+const GameInfo = ({ history, onRestart, goToStepHistory, status, winner, onSorting, isAscending, stepNumber }) => {
     const winnerResult = getWinnerResult(winner, history, status);
 
-    const handleClick = (move) => () => {
-        if (move) {
-            goToStepHistory(move)();   
-        } else {
-            onRestart();
+    const renderButtons = () => {
+        let historyArray = [...history];
+
+        if(!isAscending) {
+            historyArray = historyArray.reverse();
         }
+
+        return historyArray.map((step) => step.step ? (
+            <li key={step.step}>
+                <button className={`historyBtn ${step.step === stepNumber ? 'currentBtn' : ''}`}
+                        onClick={goToStepHistory(step.step)}>
+                    Go to move #{step.step}
+                </button>
+            </li>
+        ) : null )
     }
 
     return (
         <div className='game-info'>
+            <button className={'sortingBtn'} onClick={onSorting}>
+                {isAscending ? '▼' : '▲'}
+            </button>
             <div className='game-history'>
                 <ul>
-                    {history.map((step, move) => {
-
-                        const description = move ? `Go to move #${move}` : 'Restart game';
-
-                        return (
-                            <li key={move}>
-                                <button onClick={handleClick(move)}>
-                                    {description}
-                                </button>
-                            </li>
-                        )
-                    })
-                    }
+                    <li>
+                        <button className={'restartBtn'} onClick={onRestart}>Restart game</button>
+                    </li>
+                    {renderButtons()}
                 </ul>
             </div>
 
